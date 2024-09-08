@@ -8,25 +8,20 @@ double complex_absolute_value(double real, double imag){
     return sqrt(real * real + imag * imag);
 }
 
-double complex_mul_real(double real1, double imag1, double real2, double imag2){
-    return real1 * real1 - imag1 * imag1 + real2;
-}
-
-double complex_mul_imag(double real1, double imag1, double real2, double imag2){
-    return 2 * real1 * imag1 + imag2;
-}
-
-
 bool meet_madelbrot_set(double real, double imag){
     double z_real = 0.0;
     double z_imag = 0.0;
 
     for(int i = 0; i < 20; i++){
+        double new_real = z_real * z_real - z_imag * z_imag + real;
+        double new_imag = 2 * z_real * z_imag + imag;
+
+        z_real = new_real;
+        z_imag = new_imag;
+
         if(complex_absolute_value(z_real, z_imag) >= 2.0){
             return false;
         }
-        z_real = complex_mul_real(z_real, z_imag, z_real, z_imag) + real;
-        z_imag = complex_mul_imag(z_real, z_imag, z_real, z_imag) + imag;
     }
 
     return true;
